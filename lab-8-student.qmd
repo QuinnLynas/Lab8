@@ -3,8 +3,10 @@ modular code.
 
 ```{r}
 #| label: setup
+library(tidyverse)
+library(purrr)
 
-
+fish <- read_csv("data_dirty/BlackfootFish.csv")
 ```
 
 ## The Data
@@ -37,6 +39,10 @@ measurement errors.
 ```{r}
 #| label: find-missing-values
 
+
+fish |>
+  summarise(across(.cols = 1:7, ~sum(is.na(.))))
+
 ```
 
 
@@ -45,7 +51,8 @@ measurement errors.
 
 ```{r}
 #| label: map-missing-values-of-fish
-
+fish |>
+  map_int(~sum(is.na(.)))
 
 ```
 
@@ -54,6 +61,16 @@ measurement errors.
 
 ```{r}
 #| label: visual-of-missing-values-over-time
+fish |>
+  filter(if_any(.cols = 1:7, is.na)) |>
+  group_by(year, section, trip) |>
+  summarise(n = n()) |>
+  ggplot(aes(x = year, y = n, color = section, shape = factor(trip))) + 
+  geom_point() +
+  geom_line() + 
+  labs(shape = "Trip", color = "Section", x = "Year", y = "Frequency of Missing Data") + 
+  scale_color_brewer(palette = "Dark2") + 
+  theme_classic()
 
 ```
 
@@ -98,7 +115,12 @@ function, instead!
 
 ```{r}
 #| label: write-rescale-function
-
+rescale_01 <- function(x){
+  if(!is.numeric(x) | length(x) <= 1) stop()
+  x1 = (x - min(x, na.rm = TRUE)) / (max(x, na.rm = TRUE) - min(x, na.rm = TRUE))
+  x1
+}
+rescale_01(1)
 ```
 
 ::: callout-tip
@@ -149,12 +171,18 @@ statement in order to create a `length_scaled` variable.
 
 fish |>  
   ggplot(aes(x = length)) + 
-  geom_histogram(binwidth = 45) +
+  geom_histogram(binwidth = 10) +
   labs(x = "Original Values of Fish Length (mm)") +
   scale_y_continuous(limits = c(0,4000))
 
 # Code for Q7 plot.
 
+fish |>
+  mutate(length = rescale_01(length)) |>  
+  ggplot(aes(x = length)) + 
+  geom_histogram( binwidth = 0.01) +
+  labs(x = "Original Values of Fish Length (mm)") +
+  scale_y_continuous(limits = c(0,4000))
 ```
 
 ::: callout-tip
