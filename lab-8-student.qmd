@@ -1,7 +1,7 @@
 ---
 title: "Lab 8"
 author: "Quinn Lynas"
-format: pdf
+format: gfm
 ---
 
 The goal of this lab is learn more about exploring missing data and writing
@@ -39,9 +39,9 @@ measurement errors.
 + **How many observations have missing values?**
 + **What variable(s) have missing values present?**
 
-::: callout-tip
-# You should use `across()`!
-:::
+<!-- ::: callout-tip -->
+<!-- # You should use `across()`! -->
+<!-- ::: -->
 
 ```{r}
 #| label: find-missing-values
@@ -86,12 +86,6 @@ fish |>
 If I wanted to rescale every quantitative variable in my dataset so that they
 only have values between 0 and 1, I could use this formula:
 
-</br>
-
-$$y_{scaled} = \frac{y_i - min\{y_1, y_2,..., y_n\}}{max\{y_1, y_2,..., y_n\} 
-- min\{y_1, y_2,..., y_n\}}$$
-
-</br>
 
 I might write the following `R` code to carry out the rescaling procedure for the `length` and `weight` columns of the `BlackfoorFish` data:
 
@@ -133,25 +127,25 @@ rescale_01 <- function(x){
 
 ```
 
-::: callout-tip
-# Efficiency 
+<!-- ::: callout-tip -->
+<!-- # Efficiency  -->
 
-Think about the efficiency of the function you wrote. Are you calling the
-**same** function multiple times? You might want to look into the `range()` 
-function. 
-:::
+<!-- Think about the efficiency of the function you wrote. Are you calling the -->
+<!-- **same** function multiple times? You might want to look into the `range()`  -->
+<!-- function.  -->
+<!-- ::: -->
 
 **5. Let's incorporate some input validation into your function. Modify your previous code so that the function stops if ...**
 
 + **... the input vector is not numeric.**
 + **... the length of the input vector is not greater than 1.**
 
-::: callout-tip
-# Modify Previous Code
+<!-- ::: callout-tip -->
+<!-- # Modify Previous Code -->
 
-Do not create a new code chunk here -- simply add these stops to your function
-above!
-:::
+<!-- Do not create a new code chunk here -- simply add these stops to your function -->
+<!-- above! -->
+<!-- ::: -->
 
 ## Test Your Function
 
@@ -171,17 +165,15 @@ Next, let's test the function on the `length` column of the `BlackfootFish` data
 
 **7. The code below makes a histogram of the original values of `length`. Add a plot of the rescaled values of `length`. Output your plots side-by-side, so the reader can confirm the only aspect that has changed is the scale.**
 
-::: callout-warning
-This will require you to call your `rescale_01()` function within a `mutate()`
-statement in order to create a `length_scaled` variable.
-:::
+<!-- ::: callout-warning -->
+<!-- This will require you to call your `rescale_01()` function within a `mutate()` -->
+<!-- statement in order to create a `length_scaled` variable. -->
+<!-- ::: -->
 
 ```{r}
 #| label: compare-original-with-rescaled-lengths
 #| layout-ncol: 2
-#| fig-cap: 
-#|  - "Original Values"
-#|  - "Scaled Values"
+
 
 p1 <- fish |>  
   ggplot(aes(x = length)) + 
@@ -202,13 +194,13 @@ p1
 p2
 ```
 
-::: callout-tip
-1. Set the y-axis limits for both plots to go from 0 to 4000 to allow for direct comparison across plots.
+<!-- ::: callout-tip -->
+<!-- 1. Set the y-axis limits for both plots to go from 0 to 4000 to allow for direct comparison across plots. -->
 
-2. Pay attention to `binwidth`!
+<!-- 2. Pay attention to `binwidth`! -->
 
-3. Use a Quarto code chunk option to put the plots side-by-side.
-:::
+<!-- 3. Use a Quarto code chunk option to put the plots side-by-side. -->
+<!-- ::: -->
 
 ## Challenge: Use Variables within a Dataset
 
@@ -223,11 +215,11 @@ has been rescaled.
 
 **The body of the function should call the original `rescale_01()` function you wrote previously. Your solution MUST use one of the `rlang` options from class.**
 
-::: callout-tip
-If you are struggling with this task, I recommend looking back over the 
-[data frame functions](https://r4ds.hadley.nz/functions.html#data-frame-functions)
-section of R for Data Science!
-:::
+<!-- ::: callout-tip -->
+<!-- If you are struggling with this task, I recommend looking back over the  -->
+<!-- [data frame functions](https://r4ds.hadley.nz/functions.html#data-frame-functions) -->
+<!-- section of R for Data Science! -->
+<!-- ::: -->
 
 ```{r}
 #| label: rescale-data-frame-function
@@ -249,9 +241,9 @@ rescale_column <- function(df, col.names){
 
 **9. Use your `rescale_column()` function to rescale *both* the `length` and `weight` columns.**
 
-::: callout-warning
-I expect that you carry out this process by calling the `rescale_column()` function only ONE time!
-:::
+<!-- ::: callout-warning -->
+<!-- I expect that you carry out this process by calling the `rescale_column()` function only ONE time! -->
+<!-- ::: -->
 
 ```{r}
 #| label: rescale-two-columns
